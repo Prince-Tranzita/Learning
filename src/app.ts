@@ -11,8 +11,8 @@ const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get("/", backendStatus);
+// api routes 
+app.get("/", backendStatus); // get route 
 app.use("/api", apiRouter); // routes for all api
 app.use(notFound); // 404 route
 app.use(errorHandler); // error handling middlware

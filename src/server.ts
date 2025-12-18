@@ -1,5 +1,5 @@
 import { ENV } from './config/env';
-import logger from './config/winston';
+import logger, { colorizeLevel } from './config/winston';
 import app from './app';
 
 
@@ -10,15 +10,17 @@ const server = app.listen(port);
 
 (() => {
    try {
-      logger.info(`Server is running in ${ENV.NODE_ENV} mode at http://localhost:${port}`);
+      logger.info(colorizeLevel(`Server is running in ${ENV.NODE_ENV} mode at http://localhost:${port}`));
    } catch (error: unknown) {
       const message  = error instanceof Error ? error.message : "Error occured in server"
       logger.error(message);
       server.close((error: unknown) => {
          if(error && error instanceof Error){
-            logger.error(error.message);
+            logger.error(colorizeLevel(error.message));
+         } else {
+            logger.error("Failed to start the server", error);
          }
       });
       process.exit(1);
    }
-})()
+})();
